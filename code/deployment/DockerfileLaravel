@@ -1,7 +1,7 @@
-ARG DB_USERNAME=root
-ARG DB_PASSWORD=""
+ARG DB_USERNAME=sail
+ARG DB_PASSWORD="password"
 ARG DB_HOST=mysql
-ARG GROUP="dad-group-x"
+ARG GROUP="dad-group-1"
 
 FROM dunglas/frankenphp
 

@@ -74,14 +74,14 @@ This tutorial assumes that we have our project in the following folder structure
 
 The repository associated with these tutorials has all the commands defined in a `justfile`. [Justfile](https://github.com/casey/just) is a simplified version of a `Makefile` and we need to install if (instructions on the github page) we want to use it. Still on this tutorial we will see all the commands so that we can run them manually if we want.
 
-Each group has access to their own namespace on kubernetes but they need to register the images and deployments with the proper reference to the group. That reference has the format **dad-group-X**, where X is the group number.
+Each group has access to their own namespace on kubernetes but they need to register the images and deployments with the proper reference to the group. That reference has the format **dad-group-1**, where X is the group number.
 
 ### Preparing Laravel
 
 In the case of Laravel we need to make sure the database credentials and the SESSION_DOMAIN (for Sanctum) variables on the .env file are properly configured. Since we want to be able to run them locally we use the Docker file to change those variables. The only one that we must change is the group and that can be done using this flag for the docker build commmand:
 
 ```bash
--build-arg GROUP=dad-group-X
+-build-arg GROUP=dad-group-1
 ```
 
 ### Preparing Vue
@@ -95,8 +95,8 @@ VITE_WS_CONNECTION=ws://localhost:8086
 
 
 # .env.production
-VITE_API_DOMAIN=api-dad-group-X.172.22.21.101.sslip.io
-VITE_WS_CONNECTION=ws://ws-dad-group-X.172.22.21.101.sslip.io
+VITE_API_DOMAIN=api-dad-group-1.172.22.21.101.sslip.io
+VITE_WS_CONNECTION=ws://ws-dad-group-1.172.22.21.101.sslip.io
 ```
 
 ## Deploy the code
@@ -129,7 +129,7 @@ On linux we can edit the file directly via `sudo nano /etc/docker/daemon.json` a
 
 ### Push Images to Container Repository
 
-Build the Laravel Image (replace group with your group id - dad-group-X and the version with the current version - 1.0.0):
+Build the Laravel Image (replace group with your group id - dad-group-1 and the version with the current version - 1.0.0):
 
 ```bash
 docker build -t registry.172.22.21.107.sslip.io/{{group}}/api:v{{version}} \
@@ -137,31 +137,31 @@ docker build -t registry.172.22.21.107.sslip.io/{{group}}/api:v{{version}} \
     --build-arg GROUP={{group}} --debug
 ```
 
-Push the Laravel Image (replace group with your group id - dad-group-X and the version with the current version - 1.0.0):
+Push the Laravel Image (replace group with your group id - dad-group-1 and the version with the current version - 1.0.0):
 
 ```bash
 docker push registry.172.22.21.107.sslip.io/{{group}}/api:v{{version}}
 ```
 
-Build the Vue Image (replace group with your group id - dad-group-X and the version with the current version - 1.0.0):
+Build the Vue Image (replace group with your group id - dad-group-1 and the version with the current version - 1.0.0):
 
 ```bash
 docker build -t registry.172.22.21.107.sslip.io/{{group}}/web:v{{version}} -f ./deployment/DockerfileVue ./vue
 ```
 
-Push the Vue Image (replace group with your group id - dad-group-X and the version with the current version - 1.0.0):
+Push the Vue Image (replace group with your group id - dad-group-1 and the version with the current version - 1.0.0):
 
 ```bash
 docker push registry.172.22.21.107.sslip.io/{{group}}/web:v{{version}}
 ```
 
-Build the Node WebSockets Image (replace group with your group id - dad-group-X and the version with the current version - 1.0.0):
+Build the Node WebSockets Image (replace group with your group id - dad-group-1 and the version with the current version - 1.0.0):
 
 ```bash
 docker build -t registry.172.22.21.107.sslip.io/{{group}}/ws:v{{version}} -f ./deployment/DockerfileWS ./websockets
 ```
 
-Push the Node WebSockets Image (replace group with your group id - dad-group-X and the version with the current version - 1.0.0):
+Push the Node WebSockets Image (replace group with your group id - dad-group-1 and the version with the current version - 1.0.0):
 
 ```bash
 docker push registry.172.22.21.107.sslip.io/{{group}}/ws:v{{version}}
@@ -174,13 +174,13 @@ Before we can publish our Kubernetes resources we need to replace the string 'da
 For Linux | WSL :
 
 ```bash
-find ./deployment -name "*.yml" -exec sed -i "s/dad-groupx/dad-group99/g" {} +; \
+find ./deployment -name "*.yml" -exec sed -i "s/dad-groupx/dad-group-1/g" {} +; \
 ```
 
 For MacOS:
 
 ```bash
-find ./deployment -name "*.yml" -exec sed -i '' "s/dad-groupx/dad-group99/g" {} +; \
+find ./deployment -name "*.yml" -exec sed -i '' "s/dad-groupx/dad-group-1/g" {} +; \
 ```
 
 We can now deploy our resources:
@@ -197,8 +197,8 @@ kubectl get pods
 
 Container may take a bit to get to the `healthy` state but after that would should be able to reach your application at:
 
-- VUE: [http://web-dad-group-x-172.22.21.101.sslip.io](http://web-dad-group-x-172.22.21.101.sslip.io)
-- Laravel: [http://api-dad-group-x-172.22.21.101.sslip.io](http://web-dad-group-x-172.22.21.101.sslip.io)
+- VUE: [http://web-dad-group-1-172.22.21.101.sslip.io](http://web-dad-group-1-172.22.21.101.sslip.io)
+- Laravel: [http://api-dad-group-1-172.22.21.101.sslip.io](http://web-dad-group-1-172.22.21.101.sslip.io)
 
 ## Running commands
 
@@ -207,10 +207,10 @@ We sometimes need to run commands on the containers running in the cluster, one 
 ```bash
 
 # get pod name
-kubectl get pods -n dad-group-X -l app=laravel-app
+kubectl get pods -n dad-group-1 -l app=laravel-app
 
 
-kubectl -n dad-group-X exec -it <pod-name> -- php artisan migrate:fresh --seed
+kubectl -n dad-group-1 exec -it <pod-name> -- php artisan migrate:fresh --seed
 
 ```
 
