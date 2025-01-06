@@ -17,7 +17,7 @@ spec:
       priorityClassName: high-priority
       containers:
         - name: api
-          image: registry.172.22.21.107.sslip.io/dad-group-1/api:v1.0.0
+          image: registry.172.22.21.107.sslip.io/dad-group-1/api:v4.0.0
           resources:
             requests:
               memory: "256Mi"

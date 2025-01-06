@@ -17,7 +17,7 @@ spec:
       priorityClassName: low-priority
       containers:
         - name: web
-          image: registry.172.22.21.107.sslip.io/dad-group-1/web:v1.0.0
+          image: registry.172.22.21.107.sslip.io/group-dad-1/web:v5.0.0
           resources:
             requests:
               memory: "64Mi"
