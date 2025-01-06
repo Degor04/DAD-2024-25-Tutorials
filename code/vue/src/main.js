@@ -1,28 +1,20 @@
+import './assets/main.css';
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import axios from 'axios'
-import { io } from 'socket.io-client'
-
-import '@/assets/base.css'
-
 import App from './App.vue'
 import router from './router'
+import { io } from "socket.io-client"
 
-const app = createApp(App)
+axios.defaults.baseURL = 'http://web-dad-group-1-172.22.21.101.sslip.io/api'
 
-app.use(router)
+const app = createApp(App);
+app.provide('socket', io("http://web-dad-group-1-172.22.21.101.sslip.io:8081"))
 
-app.use(createPinia())
-const apiDomain = import.meta.env.VITE_API_DOMAIN
-const wsConnection = import.meta.env.VITE_WS_CONNECTION
+const pinia = createPinia()
 
-console.log('api domain', apiDomain)
-console.log('ws connection', wsConnection)
-
-axios.defaults.baseURL = `http://${apiDomain}/api`
-
-app.provide('socket', io(wsConnection))
-
-app.provide('serverBaseUrl', apiDomain)
+app.use(router);
+app.use(pinia)
 
 app.mount('#app')

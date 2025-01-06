@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Game;
+use App\Policies\GameHistoryPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,4 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+    protected $policies = [
+        Game::class => GameHistoryPolicy::class,
+    ];
 }

@@ -13,6 +13,7 @@
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.7",
+    "chart.js": "^3.9.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.456.0",
@@ -24,6 +25,7 @@
     "tailwindcss": "^3.4.14",
     "tailwindcss-animate": "^1.0.7",
     "vue": "^3.4.29",
+    "vue-chart-3": "^3.1.8",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {

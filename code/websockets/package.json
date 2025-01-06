@@ -1,12 +1,10 @@
 {
-  "name": "websockets",
+  "name": "memorygame_websocket_server",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "bun --watch index.js",
-    "start": "bun index.js "
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
